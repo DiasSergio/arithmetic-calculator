@@ -1,5 +1,9 @@
 <script setup>
 import { reactive } from "vue";
+import Header from './components/Header.vue';
+import Form from './components/Form.vue';
+import Results from './components/Results.vue';
+import Footer from './components/Footer.vue';
 
 const status = reactive({
     firstValue: 0,
@@ -52,112 +56,17 @@ const doTheMath = () => {
             return status.finalValue
             break;
     }
-
-    console.log(doTheMath())
 }
 
 </script>
 
 <template>
     <div class="container">
-        <header class="p-5 mb-4 mt-4 bg-light rounded-3">
-            <h1>Calculator</h1>
-            <p>
-                Feel free to do the math.
-            </p>
-        </header>
-        <form>
-            <div class="row inputs">
-                <div class="col-md-4">
-                    <input required @keyup="e => status.firstValue = e.target.value" type="number"
-                        placeholder="Enter your first value" class="form-control">
-                </div>
-                <div class="col-md-3">
-                    <select @change="e => status.filter = e.target.value" class="form-control">
-                        <option value="Math">
-                            Do the math!
-                        </option>
-                        <option value="Addition">
-                            Addition
-                        </option>
-                        <option value="Subtraction">
-                            Subtraction
-                        </option>
-                        <option value="Division">
-                            Division
-                        </option>
-                        <option value="Multiplication">
-                            Multiplication
-                        </option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <input required @keyup="e => status.secondValue = e.target.value" type="number"
-                        placeholder="Enter your second value" class="form-control">
-                </div>
-            </div>
-        </form>
-        <div class="alert alert-secondary finalResult col-md-6" role="alert">
-            {{ doTheMath() }}
-        </div>
-        <div class="links">
-            <ul>
-                <li>
-                    <a href="https://github.com/DiasSergio" target="_blank"><img src="./components/icons/github.svg"
-                            alt="github logo"></a>
-                </li>
-                <li>
-                    <a href="https://www.linkedin.com/in/sergio-pereira-dias-junior-790557161/" target="_blank"><img
-                            src="./components/icons/linkedin.svg" alt="linkedin logo"></a>
-                </li>
-            </ul>
-        </div>
+        <Header />
+        <Form :edit-filter="e => status.filter = e.target.value"
+            :edit-first-value="e => status.firstValue = e.target.value"
+            :edit-second-value="e => status.secondValue = e.target.value" />
+        <Results :do-the-math="doTheMath()" />
+        <Footer />
     </div>
 </template>
-
-<style scoped>
-li {
-    list-style: none;
-}
-
-a {
-    padding: 10px;
-    text-decoration: none;
-}
-
-img {
-    max-width: 50px;
-    width: 100%;
-}
-
-ul {
-    display: flex;
-    justify-content: center;
-    padding-left: 0;
-}
-
-header {
-    text-align: center;
-}
-
-.inputs {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0
-}
-
-.finalResult {
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-    margin-top: 5px;
-    font-size: large;
-    margin: 15px auto;
-}
-</style>

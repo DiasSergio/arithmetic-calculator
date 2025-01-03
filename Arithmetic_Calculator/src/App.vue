@@ -5,12 +5,12 @@ const status = reactive({
     firstValue: 0,
     secondValue: 0,
     finalValue: 0,
-    filter: '',
+    filter: false,
 });
 
 const addition = () => {
-    status.finalValue = parseInt(status.firstValue) + parseInt(status.secondValue);
-    console.log(status.firstValue, status.secondValue)
+    status.firstValue && status.secondValue > 0 ?
+        status.finalValue = parseInt(status.firstValue) + parseInt(status.secondValue) : status.finalValue = "Please insert valid values!"
     return status.finalValue
 }
 
@@ -33,6 +33,9 @@ const doTheMath = () => {
     const { filter } = status;
 
     switch (filter) {
+        case 'Math':
+            return 0
+            break;
         case 'Addition':
             return addition()
             break;
@@ -66,11 +69,14 @@ const doTheMath = () => {
         <form>
             <div class="row inputs">
                 <div class="col-md-4">
-                    <input @keyup="e => status.firstValue = e.target.value" type="number"
+                    <input required @keyup="e => status.firstValue = e.target.value" type="number"
                         placeholder="Enter your first value" class="form-control">
                 </div>
                 <div class="col-md-3">
                     <select @change="e => status.filter = e.target.value" class="form-control">
+                        <option value="Math">
+                            Do the math!
+                        </option>
                         <option value="Addition">
                             Addition
                         </option>
@@ -86,7 +92,7 @@ const doTheMath = () => {
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <input @keyup="e => status.secondValue = e.target.value" type="number"
+                    <input required @keyup="e => status.secondValue = e.target.value" type="number"
                         placeholder="Enter your second value" class="form-control">
                 </div>
             </div>
